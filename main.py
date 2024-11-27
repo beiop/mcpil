@@ -21,8 +21,32 @@ def openFile():
       filetypes=(("Appimages","*.AppImage"),("something else?","*"))
    )
    print(filepath)
+   selection = listbox.curselection()
+   if selection:
+      print(selection[0])
+   else:
+      print("no profile selected")
    entry.delete(0,END)
-   entry.insert(0,filepath)
+   
+   if len(filepath) > 40:
+      for i in range(40):
+         entry.insert(0,filepath[-(i+1)])
+   else:
+      entry.insert(0,filepath)
+   entry.insert(0,"...")
+   entry.config(state="disabled")
+   
+
+# Create a Listbox and add some items
+listbox = Listbox(window)
+
+listbox.pack(padx=20, pady=10)
+
+items = ["Apple", "Banana", "Orange", "Grapes", "Mango"]
+for item in items:
+    listbox.insert(END, item)
+listbox.select_set(0)
+
 
 entry = Entry(appimageEntry,font=("Ubuntu Mono",10),width=50)
 entry.pack(side="left")
