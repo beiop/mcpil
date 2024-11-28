@@ -1,3 +1,10 @@
+# Program by Beiop
+# with code yoinked by TBR and Chechubben
+# with additional help (sometimes unknowingly) by FG6, OXMC
+# and sometime chatgpt :/
+# idk how licenses work, whether I require one or know how to spell one
+# Just cite these people ^ or link to this program if you use a portion of this code.
+
 #Mango juice is pretty good!
 # we are using double-quotes for every string
 # we are using 3 spaces for indents
@@ -6,6 +13,8 @@
 #  profileFrame
 #  rectangleFrame
 #  launchFrame
+
+# also before opening a dialog box, we gonna kill the last one.
 
 
 from tkinter import *
@@ -25,7 +34,7 @@ def launch():
 def export():
     global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
     if currentWindow is not None:
-        return  # Do nothing if a window is already open
+        currentWindow.destroy() # kill window if it already exists
     currentWindow = Toplevel(window)
     currentWindow.transient(window)
     currentWindow.title("Goober XPORT")
@@ -40,13 +49,13 @@ def exitWindow():
     global currentWindow
     if currentWindow is not None:
         currentWindow.destroy()
-        currentWindow = None
+        #currentWindow = None
 
 def appimageMenu():
     global entry
     global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
     if currentWindow is not None:
-        return  # Do nothing if a window is already open
+        currentWindow.destroy() # kill window if it already exists
     currentWindow = Toplevel(window)
     currentWindow.transient(window)
     currentWindow.title("Appimage Select")
