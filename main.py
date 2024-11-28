@@ -12,6 +12,8 @@
 #Window
 #  profileFrame
 #  rectangleFrame
+#    versionSelect -- previously known as appimageSelect
+#      addVersion
 #  launchFrame
 
 # also before opening a dialog box, we gonna kill the last one.
@@ -51,22 +53,35 @@ def exitWindow():
         currentWindow.destroy()
         #currentWindow = None
 
-def appimageMenu():
+def versionSelect():
     global entry
     global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
     if currentWindow is not None:
         currentWindow.destroy() # kill window if it already exists
     currentWindow = Toplevel(window)
     currentWindow.transient(window)
-    currentWindow.title("Appimage Select")
-    currentWindow.geometry("400x80")
+    currentWindow.title("Version Select")
+    currentWindow.geometry("400x300")
     exitButton = Button(currentWindow,text="Close Dialouge",command=exitWindow)
-    exitButton.place(x=305,y=20,width=95)
+    exitButton.place(x=305,y=220,width=95)
     ToolTip(exitButton, msg="Clothes Dialoughe")
+    openAddVersion = Button(currentWindow, text="add", command=addVersion)
+    openAddVersion.pack()
+def addVersion():
+    global entry
+    global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
+    if currentWindow is not None:
+        currentWindow.destroy() # kill window if it already exists
+    currentWindow = Toplevel(window)
+    currentWindow.transient(window)
+    currentWindow.title("Add Version")
+    currentWindow.geometry("400x80")
+    backButton = Button(currentWindow,text="Back",command=versionSelect)
+    backButton.place(x=305,y=20,width=95)
     entry = Entry(currentWindow,font=("random something",10),width=50)
     entry.place(x=5,y=0,width=390)
     entry.insert(0,"<path to .AppImage>")
-    Button(currentWindow,text="Open",command=openFile).place(x=5,y=20,width=90)  
+    Button(currentWindow,text="Open",command=openFile).place(x=5,y=20,width=90)
 def openFile():
    global filepath
    global entry
@@ -94,7 +109,7 @@ def openFile():
 #Generate window to put things in
 window = Tk()
 window.geometry("400x480")
-window.title("McBeiopyll")
+window.title("McBeiopyll")  
 icon = PhotoImage(file="icon.png")
 window.iconphoto(True,icon)
 
@@ -122,7 +137,7 @@ listbox.select_set(0)
 rectangleFrame = Frame(window,bd=5,relief="raised")
 rectangleFrame.place(x=300,y=0,height=360,width=100)
 
-appimageRectangle = Button(rectangleFrame,bg="#4AFF00",activebackground="red",text="Appimage",command=appimageMenu)
+appimageRectangle = Button(rectangleFrame,bg="#4AFF00",activebackground="red",text="Appimage",command=versionSelect)
 appimageRectangle.pack()
 
 

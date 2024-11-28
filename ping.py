@@ -27,4 +27,5 @@ def chechubben(server):
         udp_socket.close()
 
 if __name__ == "__main__":
-    chechubben("8.8.8.8")  #eventually I'll replace this with some functionality : that when running this in the terminal, it will ask for some input, like the original did. I'm reallising now that I'm the reason why it no longer has this functionality and that I forgot to enable word wrap. but it may be better to not have word wrap.
+    chechubben("mcpi.izor.in")
+    chechubben("retrocraft.bounceme.net")  #eventually I'll replace this with some functionality : that when running this in the terminal, it will ask for some input, like the original did. I'm reallising now that I'm the reason why it no longer has this functionality and that I forgot to enable word wrap. but it may be better to not have word wrap.
