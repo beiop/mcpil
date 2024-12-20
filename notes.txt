@@ -1,0 +1,11 @@
+#launchScript -- string output to Launch & XPort
+#   profiles -- list
+#       profileSelect -- list of profiles as they show in the menu (with errors)
+#       not implememnted --> versionSelected -- name of the version selected
+#       profileSelected -- name of the profile selected
+#       profileVersionNames -- dictionary listing what profile has what version name
+
+#           versionNames -- list
+#               versionNamesDictionary -- list of what those names mean
+#       profileFlags -- dictionary listing what flags to what profile
+#       profileStartup -- dictionary listing what startup script to what profile

@@ -1,1 +1,2 @@
-beans = {"beans 1 ": "Beans","beans 2 ": "Beans Beans","beans 3 ": "Beans Beans Beans",}
+dictio = {"beans":"bill","bii":"browning"}
+print(dictio{1})

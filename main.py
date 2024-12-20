@@ -34,7 +34,11 @@
 
 #launchScript -- string output to Launch & XPort
 #   profiles -- list
+#       profileSelect -- list of profiles as they show in the menu (with errors)
+#       not implememnted --> versionSelected -- name of the version selected
+#       profileSelected -- name of the profile selected
 #       profileVersionNames -- dictionary listing what profile has what version name
+
 #           versionNames -- list
 #               versionNamesDictionary -- list of what those names mean
 #       profileFlags -- dictionary listing what flags to what profile
@@ -57,6 +61,8 @@ from ping import chechubben # absolutly never open this file in VS code, or on w
 #global variable to track the open window hi mom. this is a program i'm writing that is not for school. I could be doing homework, but that's boring.
 currentWindow = None
 
+profileSelected = 0
+
 #these guys here are variables that someday will be stored in a text file once I implement a saving feature.
 launchScript = "echo beans"
 profiles = []
@@ -67,6 +73,39 @@ versionNamesDictionary = {"Flatpak":"/usr/bin/flatpak run --branch=stable --comm
 
 def launch():
     profileSelect.insert(END, launchScript)
+
+def refreshProfiles():
+    global profileSelected
+    if profileSelect.curselection():  # Checks if nothing is selected
+        print("refresh profiles Selected:", profileSelect.get(profileSelect.curselection()))
+        profileSelected = profileSelect.get(profileSelect.curselection())
+        A = True
+        
+    elif profileSelected == None:
+        A = True
+    else:
+        print("No selection in profileSelect with refreshProfiles Function")
+        A = False
+    
+    profileSelect.delete(0,END)
+    for profile in profiles:
+        warning = ""
+        if profile not in profileVersionNames:
+            warning += "[No Version] "
+        if warning != "":
+            warning = "Warning: " + warning
+        profileSelect.insert(END, warning + profile)
+    if A == True:
+        for i , item in enumerate(profileSelect.get(0,END)): #code that idk how it works I got from google ai overview at the airport. 
+            if item == profileSelected:
+                profileSelect.selection_set(i)
+    #   Future Beiop Here:
+    #   I think I understand it now, and it does the same as the code below, but I have yet to test it...
+    #   But I still have no idea what it does with "for i, item in..." WHY/HOW is there a COMMA?
+
+    #   for i in range(len(profileSelect.get(0,END))):
+    #   if profileSelect[i] == profileSelected:
+    #       profileSelect.selection_set(i)
 
 def export():
     global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
@@ -93,12 +132,13 @@ def versionSelect():
     global profileSelect
     global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
     global versionSelectListbox
+    global profileSelected
     if not profileSelect.curselection():  # Checks if nothing is selected
-        print("No selection")
+        print("No selection in profileSelect")
         return
     else:
-        print("Selected:", profileSelect.get(profileSelect.curselection()))
-        print("Selected:", profileSelect.get(profileSelect.curselection()))
+        profileSelected = profiles[profileSelect.curselection()[0]]
+        print("Selected:", profileSelected)
     if currentWindow is not None:
         currentWindow.destroy() # kill window if it already exists
     currentWindow = Toplevel(window)
@@ -122,8 +162,10 @@ def saveVersion():
         return
     else:
         #versionSelectListbox.get(versionSelectListbox.curselection())
-        
-        print(profileSelect.get(profileSelect.curselection()), versionSelectListbox.get(versionSelectListbox.curselection()))
+        profileSelected, versionSelectListbox.get(versionSelectListbox.curselection())
+        profileVersionNames[profileSelected] = versionSelectListbox.get(versionSelectListbox.curselection())
+        print(profileVersionNames)
+        refreshProfiles()
     
 def addVersion():
     global pathEntry
@@ -198,9 +240,7 @@ def addProfile(): #Function behind Add button in the profileFrame & creation of 
 def addNewProfile():
     global profileSelect
     profiles.append(entry.get())
-    profileSelect.delete(0,END)
-    for profile in profiles:
-        profileSelect.insert(END, profile)
+    refreshProfiles()
     exitWindow()
 
 def copyProfile():
@@ -230,9 +270,7 @@ label = Label(profileFrame,text="Profiles",relief="flat")
 label.place(x=0,y=0,height=20)
 profileSelect = Listbox(profileFrame)
 profileSelect.place(x=5,y=20,width=285,height=300)
-for profile in profiles:
-    profileSelect.insert(END, profile)
-profileSelect.select_set(0)
+refreshProfiles()
 add = Button(profileFrame,text="Add",command=addProfile)
 add.pack(side=BOTTOM)
 remove = Button(profileFrame,text="Remove",command=removeProfile)
