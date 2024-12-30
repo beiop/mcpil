@@ -1,10 +1,14 @@
+
 # Program by Beiop
 # with code yoinked by TBR and Chechubben
 # with additional help (sometimes unknowingly) by FG6, OXMC
 # and sometimes chatgpt :/
+# okay a lot from chatgpt,
+# and a little from whatever vs has when you press tab
 # and don't forget, about 3 hours of brocode tutorials!
 # idk how licenses work, whether I require one or know how to spell one
 # Just cite these people ^ or link to this program if you use a portion of this code.
+# Though I really doubt you will use any of this code.
 
 # from this point on, just notes to myself and/or anyone trying to understand my code.
 
@@ -33,14 +37,14 @@
 #   render distance
 
 #launchScript -- string output to Launch & XPort
-#   profiles -- list
+#!  profiles -- list
 #       profileSelect -- list of profiles as they show in the menu (with errors)
 #       not implememnted --> versionSelected -- name of the version selected
-#       profileSelected -- name of the profile selected
-#       profileVersionNames -- dictionary listing what profile has what version name
+#!      profileSelected -- name of the profile selected (should be without errors, but currently I'm chasing someone down the street)
+#!      profileVersionNames -- dictionary listing what profile has what version name
 
-#           versionNames -- list
-#               versionNamesDictionary -- list of what those names mean
+#!          versionNames -- list
+#!              versionNamesDictionary -- list of what those names mean
 #       profileFlags -- dictionary listing what flags to what profile
 #       profileStartup -- dictionary listing what startup script to what profile
 
@@ -57,22 +61,62 @@ from tkinter import filedialog #idk why I even have to import this but ig i do
 from tkinter import messagebox
 from tktooltip import ToolTip
 from ping import chechubben # absolutly never open this file in VS code, or on windows. The original creator of this code reqires that it only be accessed in a proper text editor. Actually, don't tell chechubben this, but I'm uploading this whole project to GitHub and editing it in VS Code on Windows. But I doubt he can read this unless he has wordwrap on in Notepad ++. (actuall I think he uses something else... I'm not too sure)
+import os
+import pickle
 
 #global variable to track the open window hi mom. this is a program i'm writing that is not for school. I could be doing homework, but that's boring.
 currentWindow = None
 
-profileSelected = 0
 
-#these guys here are variables that someday will be stored in a text file once I implement a saving feature.
-launchScript = "echo beans"
-profiles = []
-profileVersionNames = {}
-versionNames = ["Flatpak"]
-versionNamesDictionary = {"Flatpak":"/usr/bin/flatpak run --branch=stable --command=minecraft-pi-reborn-client com.thebrokenrail.MCPIReborn"}
+SAVE_FILE = "save.pkl"
+
 
 
 def launch():
-    profileSelect.insert(END, launchScript)
+    global profileSelected
+    if profileSelect.curselection():  # Checks if nothing is selected
+        profileSelected = profiles[profileSelect.curselection()[0]]
+    else:
+        print("No selection in profileSelect with refreshProfiles Function")
+    print(profileSelected)
+    launchScript = versionNamesDictionary.get(profileVersionNames.get(profileSelected))
+    print(launchScript)
+    
+
+def load():
+    #ooh, turns out you can globalize multiple variables at once
+    global profiles, profileSelected, profileVersionNames, versionNames, versionNamesDictionary, launchScript
+    if os.path.exists(SAVE_FILE):
+        with open(SAVE_FILE, "rb") as file:
+            data = pickle.load(file)
+            profiles = data.get("profiles", [])
+            profileSelected = data.get("profileSelected")
+            profileVersionNames = data.get("profileVersionNames", {})
+            versionNames = data.get("versionNames", [])
+            versionNamesDictionary = data.get("versionNamesDictionary", {})
+            launchScript = data.get("launchScript", "echo beans")
+        print("Loaded data from save file.")
+    else:
+        print("No save file found. Using default values.")
+        profiles = []
+        profileSelected = None
+        profileVersionNames = {}
+        versionNames = ["Flatpak"]
+        versionNamesDictionary = {"Flatpak": "/usr/bin/flatpak run --branch=stable --command=minecraft-pi-reborn-client com.thebrokenrail.MCPIReborn"}
+        launchScript = "echo beans"
+
+def save():
+    data = {
+        "profiles": profiles,
+        "profileSelected": profileSelected,
+        "profileVersionNames": profileVersionNames,
+        "versionNames": versionNames,
+        "versionNamesDictionary": versionNamesDictionary,
+        "launchScript": launchScript,
+    }
+    with open(SAVE_FILE, "wb") as file:
+        pickle.dump(data, file)
+    print("Data saved successfully.")
 
 def refreshProfiles():
     global profileSelected
@@ -81,7 +125,7 @@ def refreshProfiles():
         profileSelected = profileSelect.get(profileSelect.curselection())
         A = True
         
-    elif profileSelected == None:
+    elif profileSelected != None:
         A = True
     else:
         print("No selection in profileSelect with refreshProfiles Function")
@@ -133,12 +177,14 @@ def versionSelect():
     global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
     global versionSelectListbox
     global profileSelected
+
     if not profileSelect.curselection():  # Checks if nothing is selected
         print("No selection in profileSelect")
         return
     else:
         profileSelected = profiles[profileSelect.curselection()[0]]
         print("Selected:", profileSelected)
+    
     if currentWindow is not None:
         currentWindow.destroy() # kill window if it already exists
     currentWindow = Toplevel(window)
@@ -248,6 +294,8 @@ def copyProfile():
 def removeProfile():
     print("dev copyProfile does nothing rn")
 
+load() #load data from save file
+
 #Generate window to put things in
 window = Tk()
 window.geometry("400x480")
@@ -261,6 +309,8 @@ launchFrame.place(x=0,y=360,height=120,width=400)
 launchButton = Button(launchFrame,bg="#4AFF00",activebackground="red",text="Launch",command=launch)
 launchButton.pack()
 exportButton = Button(launchFrame,bg="#4AFF00",activebackground="red",text="X Port",command=export)
+exportButton.pack()
+exportButton = Button(launchFrame,bg="#4AFF00",activebackground="red",text="save",command=save)
 exportButton.pack()
 
 profileFrame = Frame(window,bd=5,relief="groove")
