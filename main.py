@@ -1,7 +1,7 @@
-
 # Program by Beiop
 # with code yoinked by TBR and Chechubben
 # with additional help (sometimes unknowingly) by FG6, OXMC
+# and an apparent need rewrite the thing by Wallee
 # and sometimes chatgpt :/
 # okay a lot from chatgpt,
 # and a little from whatever vs has when you press tab
@@ -28,7 +28,7 @@
 #   version selector
 #   Mod selector
 #   flag selector
-#   startup apps selector
+#   startup apps selector (does this mean like startup scripts?)
 #   startup modes (server, debug)
 #   Texture selector
 #Global:
@@ -70,9 +70,14 @@ currentWindow = None
 
 SAVE_FILE = "save.pkl"
 
+try:
+    profileSelected
+except NameError:
+    profileSelected = None
+    print("profileSelected not defined, setting to None. midnight beiop deemed this necessary")
 
 
-def launch():
+def launch(ruexporting=False):
     global profileSelected
     if profileSelect.curselection():  # Checks if nothing is selected
         profileSelected = profiles[profileSelect.curselection()[0]]
@@ -80,7 +85,11 @@ def launch():
         print("No selection in profileSelect with refreshProfiles Function")
     print(profileSelected)
     launchScript = versionNamesDictionary.get(profileVersionNames.get(profileSelected))
-    print(launchScript)
+    if ruexporting:
+        return launchScript
+    else:
+        print("Eventually this will be replaced with the actuall running of the following command")
+        print(launchScript)
     
 
 def load():
@@ -152,17 +161,29 @@ def refreshProfiles():
     #       profileSelect.selection_set(i)
 
 def export():
-    global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
-    if currentWindow is not None:
-        currentWindow.destroy() # kill window if it already exists
+    global currentWindow 
+    exitWindow()
     currentWindow = Toplevel(window)
     currentWindow.transient(window)
     currentWindow.title("Goober XPORT")
     currentWindow.geometry("400x200")
     text = Text(currentWindow, wrap=WORD, height=10, width=40)
     text.pack(padx=10)
+    launchScript = launch(True)
     text.insert("1.0",launchScript)
     text.config(state="disabled")
+
+def errorPopup(error):
+    print("errorPopup says:", error)
+    errorWindow = Toplevel(window)
+    errorWindow.transient(window)
+    errorWindow.title("Annoying Popup time!")
+    errorWindow.geometry("200x150")
+    text = Text(errorWindow, wrap=WORD, height=6, width=40)
+    text.pack(padx=10)
+    text.insert("1.0",error)
+    text.config(state="disabled")
+    Button(errorWindow,text="Clothes",command=errorWindow.destroy).pack()
     
 def exitWindow():
     global currentWindow
@@ -171,22 +192,18 @@ def exitWindow():
         #currentWindow = None
 
 def versionSelect():
-    global pathEntry
-    global versionNames
-    global profileSelect
-    global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
-    global versionSelectListbox
-    global profileSelected
-
-    if not profileSelect.curselection():  # Checks if nothing is selected
-        print("No selection in profileSelect")
-        return
+    global pathEntry, versionNames, profileSelect, currentWindow, versionSelectListbox, profileSelected
+    if profileSelect == None:
+        if not profileSelect.curselection():  # Checks if nothing is selected
+            
+            print("No selection in profileSelect")
+            return
+        else:
+            profileSelected = profiles[profileSelect.curselection()[0]]
+            print("Selected:", profileSelected)
     else:
-        profileSelected = profiles[profileSelect.curselection()[0]]
-        print("Selected:", profileSelected)
-    
-    if currentWindow is not None:
-        currentWindow.destroy() # kill window if it already exists
+        print("Found previous selection of profileSelected to be:", profileSelected)
+    exitWindow() # kill window if it already exists
     currentWindow = Toplevel(window)
     currentWindow.transient(window)
     currentWindow.title("Version Select")
@@ -214,9 +231,7 @@ def saveVersion():
         refreshProfiles()
     
 def addVersion():
-    global pathEntry
-    global nameEntry
-    global currentWindow #this little block of code you're going to see everywhere. It is mostly the same process to create the popup windows
+    global pathEntry, nameEntry, currentWindow
     if currentWindow is not None:
         currentWindow.destroy() # kill window if it already exists
     currentWindow = Toplevel(window)
@@ -290,9 +305,9 @@ def addNewProfile():
     exitWindow()
 
 def copyProfile():
-    print("dev copyProfile does nothing rn")
+    errorPopup("def copyProfile does nothing rn")
 def removeProfile():
-    print("dev copyProfile does nothing rn")
+    errorPopup("def removeProfile does nothing rn")
 
 load() #load data from save file
 
