@@ -1,0 +1,2 @@
+class variables are shared among all instances
+instancde variables are not.
