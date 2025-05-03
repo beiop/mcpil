@@ -9,3 +9,5 @@
 #               versionNamesDictionary -- list of what those names mean
 #       profileFlags -- dictionary listing what flags to what profile
 #       profileStartup -- dictionary listing what startup script to what profile
+
+Shift + ` runs python file

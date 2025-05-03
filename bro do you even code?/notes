@@ -1,2 +1,4 @@
 class variables are shared among all instances
 instancde variables are not.
+
+Iheritance allows a class to inherent attributes and methods from another class
