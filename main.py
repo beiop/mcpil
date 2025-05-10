@@ -1,70 +1,99 @@
 #malpractice
+#last cleaned up: may 10, 13:36. Took one hour.
+#classes are capitalized, everything else is camelCase
+#underscores are chatgpt's fault.
+
 from tkinter import *
 import subprocess
 
 class Window(Tk):
 
     def __init__(self,title,geometry):
-        super().__init__()
+        super().__init__() # Initialize the Tk class, apparently...??
         self.geometry(geometry)
         self.title(title)
         icon = PhotoImage(file="assets/icon.png")
         self.iconphoto(True,icon)
         self.resizable(False, False)
-        self.bg_image = PhotoImage(file="assets/background.png")
-        Label(self, image=self.bg_image).place(x=0,y=0)
+        self.bgImage = PhotoImage(file="assets/background.png")
+        Label(self, image=self.bgImage).place(x=0,y=0)
 
-        Button(self,bg="#4AFF00",activebackground="red",text="Launch",command=self.launch).place(x=0,y=0)
-        Button(self,bg="#4AFF00",activebackground="red",text="Feature Flags",command=self.launch).place(x=0,y=30)
-
-    def cook(self):
-        self.mainloop()
-    
+        Button(self,bg="#4AFF00",activebackground="red",text="Launch",command=self.launch).place(x=100,y=0)
+        
+        Button(self,bg="#4AFF00",activebackground="red",text="Feature Flags",command=lambda:CurrentWindow().openFeatureFlagWindow()).place(x=100,y=30)  
     
     def launch(self):
         #command = ["flatpak", "run", "com.thebrokenrail.MCPIReborn"]
         command = ["./minecraft-pi-reborn-3.0.0-amd64.AppImage"]
-        self.destroy()
+        
         try:
-            # Execute the Flatpak command
             subprocess.run(command, check=True)
             print(f"Successfully launched")
+            self.destroy() # Close the main window after launching
+        except FileNotFoundError:
+            print("Error: The specified file was not found.")
+        except PermissionError:
+            print("Error: Permission denied. Please check your permissions.")
             
         except subprocess.CalledProcessError as e:
-            print(f"Error running Flatpak app: {e}")
+            print(f"Error in Window.launch: {e}")
 
-class CurrentWindow(Tk):
-    #def __init__(self):
-    #    super().__init__() #Not sure where to put this
-    def buildCurrentWindow(self,title,geometry):
-        #destroy current window if it exists
-        #try:
-        #    self.destroy()
-        #except AttributeError:
-        #    pass
-        #create new window
+class CurrentWindow(Toplevel):
+
+    _last_instance = None
+
+    #def __init__(self, master):
+    #    super().__init__(master) #no clue what this does
         
-        self.geometry(geometry)
+
+    def buildCurrentWindow(self,title,geometry,bgFile=None):
+        # destroy previous if still open
+        if CurrentWindow._last_instance is not None:
+            try:
+                CurrentWindow._last_instance.destroy()
+            except:
+                pass
+        
+        
+        CurrentWindow._last_instance = self
+        
+        # Get position of parent window
+        x = self.master.winfo_rootx()
+        y = self.master.winfo_rooty()
+
+        # Offset for the new window
+        new_x = x + 0
+        new_y = y + 0
+    
+        self.transient(root) #set this window as an annoying child that gets in the way
+        self.geometry(geometry+f"+{new_x}+{new_y}")
         self.title(title)
-        #icon = PhotoImage(file="assets/icon.png")
-        #self.iconphoto(True,icon)
+        icon = PhotoImage(file="assets/icon.png")
+        self.iconphoto(True,icon)
         self.resizable(False, False)
-        #self.bg_image = PhotoImage(file="assets/background.png")
-        #Label(self, image=self.bg_image).place(x=0,y=0)
+        if bgFile != None:
+            print(f"bgFile: {bgFile}")
+            self.bgImage = PhotoImage(file=bgFile)
+            Label(self, image=self.bgImage).place(x=0,y=0)
 
 
     def openFeatureFlagWindow(self):
-        self.buildCurrentWindow("Feature Flags","400x480")
+        self.buildCurrentWindow("Feature Flags","1200x780","assets/test.png")
         
-        Button(self,bg="#4AFF00",activebackground="red",text="close",command=self.close).place(x=0,y=0)
-        self.destroy()
+        Button(self,bg="#4AFF00",activebackground="red",text="close",command=self.close).place(x=100,y=0)
+        
         self.mainloop()
 
+    def openPermissionWindow(self):
+        self.buildCurrentWindow("Persimmon is spelled like the fruit","400x480","assets/test.png")
+        Button(self,bg="#4AFF00",activebackground="red",text="Run chmod +x",command=self.close).place(x=100,y=0)
+        Button(self,bg="#4AFF00",activebackground="red",text="close",command=self.close).place(x=100,y=0)
+        
+        self.mainloop()
     
     
     def close(self):
-        self.destroy
+        self.destroy()
 
 root = Window("McBeiopyll2","400x480")
-#CurrentWindow.openFeatureFlagWindow(CurrentWindow("400x40"))
-root.cook()
+root.mainloop()

@@ -60,7 +60,7 @@ from tkinter import *
 from tkinter import filedialog #idk why I even have to import this but ig i do
 from tkinter import messagebox
 from tktooltip import ToolTip
-from ping import chechubben # absolutly never open this file in VS code, or on windows. The original creator of this code reqires that it only be accessed in a proper text editor. Actually, don't tell chechubben this, but I'm uploading this whole project to GitHub and editing it in VS Code on Windows. But I doubt he can read this unless he has wordwrap on in Notepad ++. (actuall I think he uses something else... I'm not too sure)
+#from ping import chechubben # absolutly never open this file in VS code, or on windows. The original creator of this code reqires that it only be accessed in a proper text editor. Actually, don't tell chechubben this, but I'm uploading this whole project to GitHub and editing it in VS Code on Windows. But I doubt he can read this unless he has wordwrap on in Notepad ++. (actuall I think he uses something else... I'm not too sure)
 import os
 import pickle
 
