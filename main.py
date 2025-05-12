@@ -20,7 +20,9 @@ class Window(Tk):
 
         Button(self,bg="#4AFF00",activebackground="red",text="Launch",command=self.launch).place(x=100,y=0)
         
-        Button(self,bg="#4AFF00",activebackground="red",text="Feature Flags",command=lambda:CurrentWindow().openFeatureFlagWindow()).place(x=100,y=30)  
+        Button(self,bg="#4AFF00",activebackground="red",text="Feature Flags",command=lambda:CurrentWindow().openFeatureFlagWindow()).place(x=100,y=30)
+
+        Button(self,bg="#4AFF00",activebackground="red",text="print ff",command=lambda:print(self.getAvailableFeatureFlags())).place(x=100,y=60)
     
     def launch(self):
         #command = ["flatpak", "run", "com.thebrokenrail.MCPIReborn"]
@@ -38,6 +40,20 @@ class Window(Tk):
         except subprocess.CalledProcessError as e:
             print(f"Error in Window.launch: {e}")
 
+    def getAvailableFeatureFlags(self):
+        
+        command = ["./minecraft-pi-reborn-3.0.0-amd64.AppImage","--print-available-feature-flags"]
+        try:
+            # Execute the command and capture the output
+            result = subprocess.run(command, check=True, capture_output=True, text=True)
+            output = result.stdout
+            # Replace newlines with | and remove the last character
+            formatted_output = output.replace("\n", "|")[0:-1]
+            return formatted_output
+
+        except subprocess.CalledProcessError as e:
+            print(f"Error: {e}")
+    
 class CurrentWindow(Toplevel):
 
     _last_instance = None
@@ -81,14 +97,6 @@ class CurrentWindow(Toplevel):
         self.buildCurrentWindow("Feature Flags","1200x780","assets/test.png")
         
         Button(self,bg="#4AFF00",activebackground="red",text="close",command=self.close).place(x=100,y=0)
-        
-        self.mainloop()
-
-    def openPermissionWindow(self):
-        self.buildCurrentWindow("Persimmon is spelled like the fruit","400x480","assets/test.png")
-        Button(self,bg="#4AFF00",activebackground="red",text="Run chmod +x",command=self.close).place(x=100,y=0)
-        Button(self,bg="#4AFF00",activebackground="red",text="close",command=self.close).place(x=100,y=0)
-        
         self.mainloop()
     
     
