@@ -1,0 +1,176 @@
+CATEGORY Additions
+    CATEGORY Chat
+        TRUE Implement Chat
+        FALSE Hide Chat Messages
+        TRUE Clear Old Chat Messages When Joining Worlds
+    CATEGORY Screens
+        TRUE Add Welcome Screen
+        TRUE Implement Create World Dialog
+    CATEGORY API
+        TRUE Implement RaspberryJuice API
+        TRUE Optimize API Sockets
+        TRUE Improve API Chat Messages
+    TRUE Add Buckets
+    TRUE Add Cake
+    TRUE Load Custom Skins
+CATEGORY Creative Mode
+    CATEGORY Inventory
+        FALSE Expand Creative Mode Inventory
+        FALSE Maximize Creative Mode Inventory Stack Size
+        FALSE Force Survival Mode Inventory UI
+        FALSE Force Survival Mode Inventory Behavior
+    FALSE Display Slot Count In Creative Mode
+    FALSE Remove Creative Mode Restrictions
+    TRUE Disable Hostile AI In Creative Mode
+    TRUE Stop Creative Players From Burning
+CATEGORY User Interface
+    CATEGORY Screens
+        CATEGORY Title
+            TRUE Add Title Screen Background
+            TRUE Improved Classic Title Screen
+            TRUE Add Splashes
+            TRUE Allow High-Resolution Title
+            TRUE Improved Classic Title Positioning
+            TRUE Use Updated Title
+        CATEGORY Options
+            TRUE Fix Options Screen
+            TRUE Add Reborn Info To Options
+        TRUE Force Touch UI Inventory
+        TRUE Fix Pause Menu
+        TRUE Display Date In Select World Screen
+        TRUE Enable Sign Screen
+    CATEGORY HUD
+        TRUE Classic HUD
+        TRUE Translucent Toolbar
+        FALSE Food Overlay
+        TRUE Render Selected Item Text
+        TRUE F3 Debug Information
+        TRUE Hide Crosshair In Third-Person
+    CATEGORY Text
+        TRUE Load Language Files
+        TRUE Add Missing Language Strings
+    FALSE Full Touch UI
+    TRUE Force Touch UI Button Behavior
+    TRUE Improved Cursor Rendering
+    TRUE Remove Forced UI Lag
+    TRUE Improved Button Hover Behavior
+    TRUE Classic Item Count UI
+    TRUE Click Buttons On Mouse Down
+    TRUE Improved UI Scaling
+CATEGORY Rendering
+    CATEGORY Optimizations
+        TRUE Optimize Chunk Sorting
+        TRUE Multidraw Rendering
+        TRUE Increase Render Chunk Size
+        TRUE Batch Font Rendering
+    CATEGORY Camera
+        TRUE Enable Camera Rendering
+        TRUE Render Camera Legs
+    CATEGORY Block Outline
+        TRUE Show Block Outlines
+        TRUE Replace Block Highlight With Outline
+        TRUE Hide Block Outline When UI Is Hidden
+    TRUE Display Nametags By Default
+    TRUE Disable V-Sync
+    TRUE 3D Chest Model
+    TRUE Use Java Beta 1.3 Light Ramp
+    TRUE Render Fire In Third-Person
+    TRUE Improved Water Rendering
+    TRUE Proper OpenGL Buffer Generation
+    TRUE 3D Dropped Items
+    TRUE Render Entity Shadows
+    TRUE Render Vignette
+    TRUE Proper Entity Shading
+CATEGORY Textures
+    CATEGORY Tinting
+        FALSE Add Biome Colors To Grass
+        FALSE Disable Block Tinting
+    TRUE Regenerate "gui_blocks" Atlas
+    TRUE Animated Water
+    TRUE Animated Lava
+    TRUE Animated Fire
+CATEGORY Input
+    TRUE Disable Autojump By Default
+    TRUE Bind "Q" Key To Item Dropping
+    TRUE Bind Common Toggleable Options To Function Keys
+    FALSE Disable Raw Mouse Motion (Not Recommended)
+    FALSE Disable Speed Bridging
+    FALSE Disable Creative Mode Mining Delay
+    TRUE Enable Text Input
+    TRUE Extend Supported Keycodes
+CATEGORY Multiplayer
+    TRUE Allow Joining Survival Mode Servers
+    TRUE External Server Support
+    TRUE Improve Multiplayer Chunk Loading
+    TRUE Sanitize Usernames
+    TRUE Allow Servers To Overwrite Armor
+    TRUE Send Inventory To Server
+CATEGORY Gameplay
+    TRUE Implement Death Messages
+    TRUE Implement Game-Mode Switching
+    FALSE Force Mob Spawning
+    TRUE Implement Crafting Remainders
+    TRUE Implement Sound Engine
+    TRUE Generate Caves
+CATEGORY Bug Fixes
+    CATEGORY Visual
+        TRUE Fix Held Item Caching
+        TRUE Fix Cobweb Lighting
+        TRUE Fix Furnace Screen Visual Bug
+        TRUE Text Rendering Fixes
+        TRUE Fix Carried Grass's Bottom Texture
+        TRUE Fix Screen Rendering When Hiding HUD
+        TRUE Fix Sugar Position In Hand
+        TRUE Fix Switching Perspective While Sneaking
+        TRUE Fix Held Item Poking Through Screen Overlay
+    CATEGORY Network
+        TRUE Patch RakNet Security Bug
+        TRUE Prevent Unnecessary Server Pinging
+        TRUE Fix Fire Syncing
+        TRUE Fix Sneaking Syncing
+        TRUE Fix Tile Entity Syncing
+        TRUE Properly Free Pending Players
+        TRUE Fix Spawn Position Syncing
+        TRUE Fix Containers Overwriting The Inventory
+        TRUE Reliable Block Placement On Servers
+        TRUE Prevent Removing Local Player
+    CATEGORY Input
+        TRUE Fix Bow & Arrow
+        TRUE Fix Attacking
+        TRUE Fix Escape Key Handling
+        TRUE Stop Locked Mouse From Interacting With HUD
+    CATEGORY Gameplay
+        TRUE Fix Furnace Not Checking Item Auxiliary
+        TRUE Fix Pigmen Burning In The Sun
+        TRUE Fix Door Duplication
+        TRUE Fix Fire Immunity
+        TRUE Fix Sunlight Not Properly Setting Mobs On Fire
+        TRUE Fix Transferring Durability When Using Items
+        TRUE Fix Torch Placement
+        TRUE Fix Eggs Spawning Abnormally Healthy Chickens
+        TRUE Fix Dropping Armor On Death
+    CATEGORY Crashes
+        TRUE Fix Crash When Generating Certain Seeds
+        TRUE Close Editor When Sign Is Destroyed
+        TRUE Close Current Screen On Death
+    CATEGORY API
+        TRUE Fix HUD When Spectating Other Players
+        TRUE Fix Crash When Spectated Entity Is Removed
+        TRUE Correctly Close API Sockets
+        TRUE Fix Moving Players With The API In Multiplayer
+    TRUE Fix Reloading Textures On Resize
+    TRUE Fix options.txt Loading/Saving
+    TRUE Fix Hanging When No Valid Spawn Point Exists
+CATEGORY Logging
+    FALSE Log FPS
+    TRUE Log Chat Messages
+    TRUE Log Game Status
+    TRUE Log RakNet Startup Errors
+CATEGORY Miscellaneous
+    TRUE Fullscreen Support
+    TRUE Always Save Chest Tile Entities
+    TRUE Screenshot Support
+    TRUE Add Camera Functionality
+    TRUE Update Default Options
+    TRUE Remove Chest Placement Restrictions
+    FALSE Stop Doors And Trapdoors Closing When Updated
