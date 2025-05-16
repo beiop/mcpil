@@ -1,0 +1,19 @@
+for line in lines:
+    Check until keyword is not tab, ever increasing depth
+    if depth is less than last line, remove last line and decrease counter by 1
+    if keyword is catagory, increase depth by one, copy line, and add 1 to line # !END!
+    if keyword is true or false and exists in the dict, copy line, and add 1 to line # !END!
+
+for saved profiles, it'll be stored in TRUE flag | format. When loading it check it to this and then display it as this -->
+    
+            CATAGORY CHAT
+                TRUE
+            TRUE
+        CATAGORY CHATER
+        CAtagory monsterize
+
+
+for lines in lines:
+    check until keyword is not tab, ever increasing depth
+    if keyword is catagory
+        add button at current depth.
