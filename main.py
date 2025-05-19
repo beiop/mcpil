@@ -4,6 +4,9 @@
 #underscores are chatgpt's fault.
 
 from tkinter import *
+#from ttkbootstrap import *
+import os
+osname = os.name
 import subprocess
 
 class Window(Tk):
@@ -27,18 +30,22 @@ class Window(Tk):
     def launch(self):
         #command = ["flatpak", "run", "com.thebrokenrail.MCPIReborn"]
         command = ["./minecraft-pi-reborn-3.0.0-amd64.AppImage"]
-        
-        try:
-            subprocess.run(command, check=True)
-            print(f"Successfully launched")
-            self.destroy() # Close the main window after launching
-        except FileNotFoundError:
-            print("Error: The specified file was not found.")
-        except PermissionError:
-            print("Error: Permission denied. Please check your permissions.")
-            
-        except subprocess.CalledProcessError as e:
-            print(f"Error in Window.launch: {e}")
+        if  os.name == "posix":
+            try:
+                subprocess.run(command, check=True)
+                print(f"Successfully launched")
+                self.destroy() # Close the main window after launching
+            except FileNotFoundError:
+                print("Error: The specified file was not found.")
+            except PermissionError:
+                print("Error: Permission denied. Please check your permissions.")
+                
+            except subprocess.CalledProcessError as e:
+                print(f"Error in Window.launch: {e}")
+        else:
+            print("chechubben is disapointed in you for not using linux")
+            print("task failed successfully")
+            self.destroy()
 
     def getAvailableFeatureFlags(self):
         
