@@ -5,7 +5,7 @@
 
 from tkinter import *
 #from ttkbootstrap import *
-import os
+import os # just to stop it from erroring on windows
 osname = os.name
 import subprocess
 
@@ -15,12 +15,16 @@ class Window(Tk):
         super().__init__() # Initialize the Tk class, apparently...??
         self.geometry(geometry)
         self.title(title)
-        icon = PhotoImage(file="assets/icon.png")
-        self.iconphoto(True,icon)
         self.resizable(False, False)
-        self.bgImage = PhotoImage(file="assets/background.png")
-        Label(self, image=self.bgImage).place(x=0,y=0)
-
+        try: #image loading
+            icon = PhotoImage(file="assets/icon.png")
+            self.iconphoto(True,icon)
+            
+            self.bgImage = PhotoImage(file="assets/background.png")
+            Label(self, image=self.bgImage).place(x=0,y=0)
+        except Exception as e:
+            print(f"Error loading images in Window.__init__: {e}")
+            print("likely not exectuting from the correct directory.")
         Button(self,bg="#4AFF00",activebackground="red",text="Launch",command=self.launch).place(x=100,y=0)
         
         Button(self,bg="#4AFF00",activebackground="red",text="Feature Flags",command=lambda:CurrentWindow().openFeatureFlagWindow()).place(x=100,y=30)
@@ -43,7 +47,7 @@ class Window(Tk):
             except subprocess.CalledProcessError as e:
                 print(f"Error in Window.launch: {e}")
         else:
-            print("chechubben is disapointed in you for not using linux")
+            print("chechubben is disapointed in you for using Windows")
             print("task failed successfully")
             self.destroy()
 
