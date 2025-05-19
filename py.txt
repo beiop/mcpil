@@ -16,4 +16,9 @@ for saved profiles, it'll be stored in TRUE flag | format. When loading it check
 for lines in lines:
     check until keyword is not tab, ever increasing depth
     if keyword is catagory and depth is one, add button and panel
-    
+
+
+todo:
+dun make main.py use ttk
+make a selector menu for default feature flags
+go back to making comparison thing for feature flags

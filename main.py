@@ -8,6 +8,9 @@ from tkinter import *
 import os # just to stop it from erroring on windows
 osname = os.name
 import subprocess
+#import ttkbootstrap as ttk #cool themes ig
+#from ttkbootstrap.constants import * #possibly useless
+from ttkbootstrap.scrolled import ScrolledFrame
 
 class Window(Tk):
 
@@ -116,3 +119,4 @@ class CurrentWindow(Toplevel):
 
 root = Window("McBeiopyll2","400x480")
 root.mainloop()
+

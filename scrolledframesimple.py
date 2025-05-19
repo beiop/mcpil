@@ -1,9 +1,7 @@
-import ttkbootstrap as ttk
 from tkinter import *
-from ttkbootstrap.constants import *
 from ttkbootstrap.scrolled import ScrolledFrame
 
-app = ttk.Window()
+app = Tk()
 
 sf = ScrolledFrame(app, autohide=True)
 sf.pack(fill=BOTH, expand=YES, padx=10, pady=10)
@@ -17,6 +15,6 @@ if bgFile != None:
             Label(sf,image=bgImage).pack(anchor=W)#place(x=30,y=0)
 for x in range(20):
     Checkbutton(sf, text=f"Checkbutton {x}").pack(anchor=W)
-    ttk.Checkbutton(sf, text=f"Checkbutton {x}").pack(anchor=W)
+    Checkbutton(sf, text=f"Checkbutton {x}").pack(anchor=W)
 
 app.mainloop()
