@@ -17,3 +17,8 @@ Button(sf, text="Close", command=close).pack()
 scrollFrame.pack(side="top", fill="both", expand=True)
 
 root.mainloop()
+
+from scrollable import ScrollFrame
+scrollFrame = ScrollFrame(root)  # add a new scrollable frame.
+sf = scrollFrame.viewPort
+scrollFrame.pack(side="top", fill="both", expand=True)

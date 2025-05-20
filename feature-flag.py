@@ -1,3 +1,5 @@
+#This turns --printagailvabiotsd into TRUE flagname|FALSE flagothername
+
 import subprocess
 
 def run():

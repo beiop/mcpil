@@ -11,3 +11,4 @@ else
 fi
 #/home/beiop/Desktop/mcpil2/mcpil-1/.venv/bin/python3 -m pip install python-tk
 /home/beiop/Desktop/mcpil2/mcpil-1/.venv/bin/python3 -m pip install ttkbootstrap
+#tkextrafont
