@@ -10,7 +10,9 @@ osname = os.name
 import subprocess
 #import ttkbootstrap as ttk #cool themes ig
 #from ttkbootstrap.constants import * #possibly useless
-from ttkbootstrap.scrolled import ScrolledFrame
+#from ttkbootstrap.scrolled import ScrolledFrame
+from scrollable import ScrollFrame # when packing the scrollframe, we pack scrollFrame itself (NOT the viewPort)
+
 
 class Window(Tk):
 
@@ -108,9 +110,17 @@ class CurrentWindow(Toplevel):
 
 
     def openFeatureFlagWindow(self):
-        self.buildCurrentWindow("Feature Flags","1200x780","assets/test.png")
+        self.buildCurrentWindow("Feature Flags","400x400")
         
-        Button(self,bg="#4AFF00",activebackground="red",text="close",command=self.close).place(x=100,y=0)
+        scrollFrame = ScrollFrame(self)  # add a new scrollable frame.
+        sf = scrollFrame.viewPort
+        self.bgImage = PhotoImage(file="assets/test.png")
+        Label(sf, image=self.bgImage).place(x=0,y=0)
+        
+        for i in range(100):
+
+            Button(sf, text=f"Close {i}", command=self.close).pack()
+        scrollFrame.pack(side="top", fill="both", expand=True)
         self.mainloop()
     
     

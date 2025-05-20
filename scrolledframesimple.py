@@ -1,20 +1,19 @@
+from scrollable import ScrollFrame
 from tkinter import *
-from ttkbootstrap.scrolled import ScrolledFrame
 
-app = Tk()
+root = Tk()
 
-sf = ScrolledFrame(app, autohide=True)
-sf.pack(fill=BOTH, expand=YES, padx=10, pady=10)
+scrollFrame = ScrollFrame(root)  # add a new scrollable frame.
 
-# add a large number of checkbuttons into the scrolled frame
+# Now add some controls to the scrollframe.
+# NOTE: the child controls are added to the view port (scrollFrame.viewPort, NOT scrollframe itself)
+def close():
+    root.destroy()
 
-bgFile = "assets/test.png"
-if bgFile != None:
-            print(f"bgFile: {bgFile}")
-            bgImage = PhotoImage(file=bgFile)
-            Label(sf,image=bgImage).pack(anchor=W)#place(x=30,y=0)
-for x in range(20):
-    Checkbutton(sf, text=f"Checkbutton {x}").pack(anchor=W)
-    Checkbutton(sf, text=f"Checkbutton {x}").pack(anchor=W)
+sf = scrollFrame.viewPort
+Button(sf, text="Close", command=close).pack()
 
-app.mainloop()
+# when packing the scrollframe, we pack scrollFrame itself (NOT the viewPort)
+scrollFrame.pack(side="top", fill="both", expand=True)
+
+root.mainloop()
