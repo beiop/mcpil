@@ -4,14 +4,15 @@
 #underscores are chatgpt's fault.
 
 from tkinter import *
-#from ttkbootstrap import *
 import os # just to stop it from erroring on windows
 osname = os.name
 import subprocess
-#import ttkbootstrap as ttk #cool themes ig
-#from ttkbootstrap.constants import * #possibly useless
-#from ttkbootstrap.scrolled import ScrolledFrame
 from scrollable import ScrollFrame # when packing the scrollframe, we pack scrollFrame itself (NOT the viewPort)
+
+if  os.name == "posix":
+    assetsDir = "assets/"
+else:
+    assetsDir = "assets\\"
 
 
 class Window(Tk):
@@ -22,10 +23,10 @@ class Window(Tk):
         self.title(title)
         self.resizable(False, False)
         try: #image loading
-            icon = PhotoImage(file="assets/icon.png")
+            icon = PhotoImage(file=f"{assetsDir}icon.png")
             self.iconphoto(True,icon)
             
-            self.bgImage = PhotoImage(file="assets/background.png")
+            self.bgImage = PhotoImage(file=f"{assetsDir}background.png")
             Label(self, image=self.bgImage).place(x=0,y=0)
         except Exception as e:
             print(f"Error loading images in Window.__init__: {e}")
@@ -64,19 +65,26 @@ class Window(Tk):
             result = subprocess.run(command, check=True, capture_output=True, text=True)
             output = result.stdout
             # Replace newlines with | and remove the last character
-            formatted_output = output.replace("\n", "|")[0:-1]
-            return formatted_output
+            settings_string = output.replace("\n", "|")[0:-1]
+            #return formatted_output
 
         except subprocess.CalledProcessError as e:
             print(f"Error: {e}")
+        
+        # Convert the string into a dictionary
+        settings = {}
+        for item in settings_string.split('|'):
+            parts = item.strip().split(' ', 1)
+            if len(parts) == 2:
+                value_str, name = parts
+                value = value_str.strip().lower() == "true"
+                settings[name.strip()] = value
+        return settings
     
 class CurrentWindow(Toplevel):
 
     _last_instance = None
 
-    #def __init__(self, master):
-    #    super().__init__(master) #no clue what this does
-        
 
     def buildCurrentWindow(self,title,geometry,bgFile=None):
         # destroy previous if still open
@@ -100,7 +108,7 @@ class CurrentWindow(Toplevel):
         self.transient(root) #set this window as an annoying child that gets in the way
         self.geometry(geometry+f"+{new_x}+{new_y}")
         self.title(title)
-        icon = PhotoImage(file="assets/icon.png")
+        icon = PhotoImage(file=f"{assetsDir}icon.png")
         self.iconphoto(True,icon)
         self.resizable(False, False)
         if bgFile != None:
@@ -118,9 +126,8 @@ class CurrentWindow(Toplevel):
         scrollFrame = ScrollFrame(buttonFrame)  # add a new scrollable frame.
         sf = scrollFrame.viewPort
         
-        #EYE BURN
-        
-
+        #Dictionary
+        Window.getAvailableFeatureFlags(Window)
         
         scrollFrame.pack(expand=True,fill=BOTH)
         self.mainloop()
