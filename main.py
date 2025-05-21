@@ -111,16 +111,18 @@ class CurrentWindow(Toplevel):
 
     def openFeatureFlagWindow(self):
         self.buildCurrentWindow("Feature Flags","400x400")
-        
-        scrollFrame = ScrollFrame(self)  # add a new scrollable frame.
-        sf = scrollFrame.viewPort
-        self.bgImage = PhotoImage(file="assets/test.png")
-        Label(sf, image=self.bgImage).place(x=0,y=0)
-        
-        for i in range(100):
+        buttonFrame = Frame(self, width=150, bg="gray")
+        buttonFrame.pack(side=LEFT, fill=Y)
+        buttonFrame.pack_propagate(False)
 
-            Button(sf, text=f"Close {i}", command=self.close).pack()
-        scrollFrame.pack(side="top", fill="both", expand=True)
+        scrollFrame = ScrollFrame(buttonFrame)  # add a new scrollable frame.
+        sf = scrollFrame.viewPort
+        
+        #EYE BURN
+        
+
+        
+        scrollFrame.pack(expand=True,fill=BOTH)
         self.mainloop()
     
     

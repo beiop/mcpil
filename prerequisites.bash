@@ -10,5 +10,5 @@ else
     echo "Virtual environment already exists at $VENV_DIR"
 fi
 #/home/beiop/Desktop/mcpil2/mcpil-1/.venv/bin/python3 -m pip install python-tk
-/home/beiop/Desktop/mcpil2/mcpil-1/.venv/bin/python3 -m pip install ttkbootstrap
+"$VENV_DIR"/bin/python3 -m pip install ttkbootstrap
 #tkextrafont
