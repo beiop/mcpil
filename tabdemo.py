@@ -17,7 +17,7 @@ class App(Tk):
         super().__init__()
         self.geometry("800x600")
 
-        font = Font(file="assets\mojangles.ttf", family="Mojangles")
+        font = Font(file="assets/mojangles.ttf", family="Mojangles")
         Label(self, text="Hello", font=font).pack()
 
 

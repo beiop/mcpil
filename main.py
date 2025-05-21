@@ -8,6 +8,20 @@ import os # just to stop it from erroring on windows
 osname = os.name
 import subprocess
 from scrollable import ScrollFrame # when packing the scrollframe, we pack scrollFrame itself (NOT the viewPort)
+#import re #apparently needed for splitting by spaces and not tabs
+from tkextrafont import Font
+
+
+def custom_split(line):
+    # Count leading spaces
+    leading_spaces = len(line) - len(line.lstrip(' '))
+    depth = leading_spaces // 4
+    # Remove leading spaces
+    content = line.lstrip(' ')
+    # Split the rest by spaces (default split)
+    words = content.split()
+    # Return a list: one "word" for each depth, then the split words
+    return (['    '] * depth) + words
 
 if  os.name == "posix":
     assetsDir = "assets/"
@@ -16,7 +30,7 @@ else:
 
 
 class Window(Tk):
-
+    
     def __init__(self,title,geometry):
         super().__init__() # Initialize the Tk class, apparently...??
         self.geometry(geometry)
@@ -116,16 +130,66 @@ class CurrentWindow(Toplevel):
             self.bgImage = PhotoImage(file=bgFile)
             Label(self, image=self.bgImage).place(x=0,y=0)
 
-
+    def showPage(self, name):
+        page = self.pages.get(name)
+        if page:
+            page.tkraise()
+    def createPage(self, name):
+        page = Frame(self.flagFrame, bg="#fff")
+        page.place(relx=0, rely=0, relwidth=1, relheight=1)
+        self.pages[name] = page
+        return name, page
     def openFeatureFlagWindow(self):
         self.buildCurrentWindow("Feature Flags","400x400")
+        
+        Label(self, text="Hello", font=font).pack()
+        
+        # Left side - container for buttons
         buttonFrame = Frame(self, width=150, bg="gray")
         buttonFrame.pack(side=LEFT, fill=Y)
         buttonFrame.pack_propagate(False)
-
-        scrollFrame = ScrollFrame(buttonFrame)  # add a new scrollable frame.
-        sf = scrollFrame.viewPort
         
+        # Right side - container for pages
+        self.flagFrame = Frame(self, bg="white")
+        self.flagFrame.pack(side=RIGHT, fill=BOTH, expand=True)
+
+        self.pages = {}
+
+        
+        
+        #make two dictionaries, one to store button status and one to list remaining 
+        with open(f"{assetsDir}possibly-available-feature-flags", "r") as file:
+            lines = file.readlines()
+
+            for line in lines:
+                depth = 0
+                lineSplit = custom_split(line.rstrip('\n'))
+                for word in lineSplit:
+                    if word != '    ':
+                        continue
+                    depth += 1
+                if lineSplit[depth] == "CATEGORY":
+                    if depth == 0:
+                        name, page = self.createPage(' '.join(lineSplit[depth+1:]))
+                        Label(page, text=lineSplit[depth+1:], font=("Mojangles",20),wraplength=220).pack(side=TOP,anchor=W)
+                        from scrollable import ScrollFrame
+                        scrollFrame = ScrollFrame(page)  # add a new scrollable frame.
+                        lastCatagory = scrollFrame.viewPort
+                        scrollFrame.pack(expand=True,fill=BOTH)
+
+                    else:
+                        Label(lastCatagory, text=lineSplit[depth+1:],font=("Mojangles",15)).pack(side=TOP,anchor=W)
+
+                if lineSplit[depth] == "TRUE" or lineSplit[depth] == "FALSE":
+                    print(f"feature flag: {lineSplit[depth+1:]} at depth {depth}")
+                    Checkbutton(lastCatagory, text=lineSplit[depth+1:], variable=IntVar(), font=("Mojangles",10),wraplength=200).pack(side=TOP,anchor=W)
+
+        #build buttons for cats
+        for name in self.pages:
+            Button(buttonFrame, text=name, command=lambda n=name: self.showPage(n), font=("Mojangles",10)).pack(fill=X)
+
+        self.showPage("Additions")
+
         #Dictionary
         Window.getAvailableFeatureFlags(Window)
         
@@ -137,5 +201,6 @@ class CurrentWindow(Toplevel):
         self.destroy()
 
 root = Window("McBeiopyll2","400x480")
+font = Font(file="assets/mojangles.ttf", family="Mojangles")
 root.mainloop()
 

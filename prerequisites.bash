@@ -16,6 +16,6 @@ echo $VENV_DIR
 "$VENV_DIR"/bin/python3 -m pip install ttkbootstrap
 
 #apparently needed for tkextrafont:
-"$VENV_DIR"/bin/python3 -m pip install scikit-build && sudo apt install cmake && sudo apt install tk-dev tcl-dev
+"$VENV_DIR"/bin/python3 -m pip install scikit-build && sudo apt install cmake tk-dev tcl-dev 
 
 "$VENV_DIR"/bin/python3 -m pip install tkextrafont
